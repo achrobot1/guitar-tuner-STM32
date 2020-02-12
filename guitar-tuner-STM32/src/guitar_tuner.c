@@ -1,6 +1,8 @@
 #include "guitar_tuner.h"
 
-float ideal_frequencies[] = {82.0312, 109.375, 148.437, 195.312, 246.093, 328.125 };
+float ideal_frequencies[] = {82.0312*2, 109.375*3, 148.437, 195.312, 246.093, 328.125 };
+// float ideal_frequencies[] = {164.0624, 109.375, 148.437, 195.312, 246.093, 328.125 };
+float thresh[6] = {0.5, 0.7, 0.9, 1.0, 1.2, 1.2};
 
 /**
  *  Send all real, or imaginary values of complex value v over UART
@@ -196,33 +198,45 @@ void tuning_instruction(float difference, uint8_t* buff, guitar_string str)
     switch(str)
     {
 	case E: 
-	    if(difference > THRESH) ssd1306_combine_graphics(buff, E_bits, down_bits);
-	    else if(difference < -THRESH) ssd1306_combine_graphics(buff, E_bits, up_bits);
+	    // if(difference > THRESH) ssd1306_combine_graphics(buff, E_bits, down_bits);
+	    // else if(difference < -THRESH) ssd1306_combine_graphics(buff, E_bits, up_bits);
+	    if(difference > thresh[E]) ssd1306_combine_graphics(buff, E_bits, down_bits);
+	    else if(difference < -thresh[E]) ssd1306_combine_graphics(buff, E_bits, up_bits);
 	    else  ssd1306_combine_graphics(buff, E_bits, circle_bits);
 	    break;
 	case A:
-	    if(difference > THRESH) ssd1306_combine_graphics(buff, A_bits, down_bits);
-	    else if(difference < -THRESH) ssd1306_combine_graphics(buff, A_bits, up_bits);
+	    // if(difference > THRESH) ssd1306_combine_graphics(buff, A_bits, down_bits);
+	    // else if(difference < -THRESH) ssd1306_combine_graphics(buff, A_bits, up_bits);
+	    if(difference > thresh[A]) ssd1306_combine_graphics(buff, A_bits, down_bits);
+	    else if(difference < -thresh[A]) ssd1306_combine_graphics(buff, A_bits, up_bits);
 	    else  ssd1306_combine_graphics(buff, A_bits, circle_bits);
 	    break;
 	case D: 
-	    if(difference > THRESH) ssd1306_combine_graphics(buff, D_bits, down_bits);
-	    else if(difference < -THRESH) ssd1306_combine_graphics(buff, D_bits, up_bits);
+	    // if(difference > THRESH) ssd1306_combine_graphics(buff, D_bits, down_bits);
+	    // else if(difference < -THRESH) ssd1306_combine_graphics(buff, D_bits, up_bits);
+	    if(difference > thresh[D]) ssd1306_combine_graphics(buff, D_bits, down_bits);
+	    else if(difference < -thresh[D]) ssd1306_combine_graphics(buff, D_bits, up_bits);
 	    else  ssd1306_combine_graphics(buff, D_bits, circle_bits);
 	    break;
 	case G: 
-	    if(difference > THRESH) ssd1306_combine_graphics(buff, G_bits, down_bits);
-	    else if(difference < -THRESH) ssd1306_combine_graphics(buff, G_bits, up_bits);
+	    // if(difference > THRESH) ssd1306_combine_graphics(buff, G_bits, down_bits);
+	    // else if(difference < -THRESH) ssd1306_combine_graphics(buff, G_bits, up_bits);
+	    if(difference > thresh[G]) ssd1306_combine_graphics(buff, G_bits, down_bits);
+	    else if(difference < -thresh[G]) ssd1306_combine_graphics(buff, G_bits, up_bits);
 	    else  ssd1306_combine_graphics(buff, G_bits, circle_bits);
 	    break;
 	case B: 
-	    if(difference > THRESH) ssd1306_combine_graphics(buff, B_bits, down_bits);
-	    else if(difference < -THRESH) ssd1306_combine_graphics(buff, B_bits, up_bits);
+	    // if(difference > THRESH) ssd1306_combine_graphics(buff, B_bits, down_bits);
+	    // else if(difference < -THRESH) ssd1306_combine_graphics(buff, B_bits, up_bits);
+	    if(difference > thresh[B]) ssd1306_combine_graphics(buff, B_bits, down_bits);
+	    else if(difference < -thresh[B]) ssd1306_combine_graphics(buff, B_bits, up_bits);
 	    else  ssd1306_combine_graphics(buff, B_bits, circle_bits);
 	    break;
 	case e: 
-	    if(difference > THRESH) ssd1306_combine_graphics(buff, e_bits, down_bits);
-	    else if(difference < -THRESH) ssd1306_combine_graphics(buff, e_bits, up_bits);
+	    // if(difference > THRESH) ssd1306_combine_graphics(buff, e_bits, down_bits);
+	    // else if(difference < -THRESH) ssd1306_combine_graphics(buff, e_bits, up_bits);
+	    if(difference > thresh[e]) ssd1306_combine_graphics(buff, e_bits, down_bits);
+	    else if(difference < -thresh[e]) ssd1306_combine_graphics(buff, e_bits, up_bits);
 	    else  ssd1306_combine_graphics(buff, e_bits, circle_bits);
 	    break;
     }

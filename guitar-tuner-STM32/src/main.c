@@ -14,9 +14,15 @@
 #include <stdio.h>
 #include <math.h>
 
-#define UART_DEBUG  0
+#define UART_DEBUG  1
 
 u16 adc_buffer[ADC_BUFF_SIZE];
+
+
+float last4[4] = {0};
+
+float last4_average(float* last4, int i);
+int temp_index = 0;
 
 int main(void)
 {
@@ -101,6 +107,7 @@ int main(void)
 	    if(UART_DEBUG)
 	    {
 		char buffer[20];
+		/*
 		// Send string prediction over uart
 		switch(max_index)
 		{
@@ -118,22 +125,28 @@ int main(void)
 			break;
 		}
 		uart_puts(buffer, USART1);
+		*/
 
-		/*
 		float estimated_freq = estimate_frequency(mag, freq, max_index);
+		if(max_index==E) estimated_freq /= 2;
+		if(max_index==A) estimated_freq /= 3;
 		sprintf(buffer, "%.4f\n\r", estimated_freq);
 		uart_puts(buffer, USART1);
-		*/
 	    }
 
-	    float estimated_freq = estimate_frequency(mag, freq, max_index);
+	    last4[temp_index] = estimate_frequency(mag, freq, max_index);
+
+	    // float estimated_freq = estimate_frequency(mag, freq, max_index);
+	    float estimated_freq = last4_average(last4, temp_index);
+	    temp_index = (temp_index+1)%4;
 
 	    float difference;
 	    switch(max_index)
 	    {
-	        case E: difference =  estimated_freq -  E_freq;
+	        // case E: difference =  estimated_freq -  E_freq;
+	        case E: difference =  estimated_freq/2 -  E_freq;
 	            break;                                    
-	        case A: difference =  estimated_freq -  A_freq;
+	        case A: difference =  estimated_freq/3 -  A_freq;
 	            break;                             
 	        case D: difference =  estimated_freq -  d_freq;
 	            break;                             
@@ -164,6 +177,11 @@ int main(void)
     }
 
     while(1);
+}
+
+float last4_average(float* last4, int i)
+{
+    return (last4[i] + last4[(i+1)%4] + last4[(i+2)%4] + last4[(i+3)%4])*0.25;
 }
 
 #ifdef USE_FULL_ASSERT

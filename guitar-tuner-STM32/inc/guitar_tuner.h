@@ -13,7 +13,8 @@
 #define REAL_PART 1
 #define IMAG_PART 0
 
-#define THRESH 1.0
+// #define THRESH 0.7
+float thresh[6];
 
 typedef enum {E, A, D, G, B, e} guitar_string;
 
