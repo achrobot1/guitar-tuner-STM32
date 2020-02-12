@@ -3,7 +3,7 @@
 #include "interrupts.h"
 #include "fft.h"
 #include "guitar_tuner.h"
-#include "eigen_fft.h"
+#include "unit_vec.h"
 #include "delay.h"
 #include "ssd1306.h"
 #include "guitar_tuner_bitmap.h"
@@ -35,8 +35,6 @@ int main(void)
     if(SysTick_Config(SystemCoreClock / 1000))
 	while(1);
 
-    // SPI_Cmd(SPI2, ENABLE);   
-
     ssd1306_init();
 
     ssd1306_clear_screen();
@@ -53,9 +51,9 @@ int main(void)
     float mag[ADC_BUFF_SIZE];
     float freq[ADC_BUFF_SIZE];
 
-    float real_part[EIG_LENGTH];
-    float imag_part[EIG_LENGTH];
-    float mag_part[EIG_LENGTH];
+    float real_part[UNIT_VEC_LENGTH];
+    float imag_part[UNIT_VEC_LENGTH];
+    float mag_part[UNIT_VEC_LENGTH];
 
     get_freq_bins(freq, ADC_BUFF_SIZE, 0.001);
 
@@ -73,19 +71,19 @@ int main(void)
 	    filter_frequencies(mag, freq, 0.0, 4.0, ADC_BUFF_SIZE);
 	    filter_frequencies(mag, freq, 60.0, 5.0, ADC_BUFF_SIZE);
 
-	    // Dot product of eigen_ffts with signal fft
+	    // Dot product of unit_vecs with signal fft
 	    int i;
 	    float dp[6] = {0};
-	    for(i=0; i<EIG_LENGTH; i++)
+	    for(i=0; i<UNIT_VEC_LENGTH; i++)
 	    {
 		float f = eigen_frequencies[i];
 		int index = freq_to_index(f, 1000, ADC_BUFF_SIZE);
-		dp[E] += E_fft_eig[i] * mag[index];
-		dp[A] += A_fft_eig[i] * mag[index];
-		dp[D] += D_fft_eig[i] * mag[index];
-		dp[G] += G_fft_eig[i] * mag[index];
-		dp[B] += B_fft_eig[i] * mag[index];
-		dp[e] += e_fft_eig[i] * mag[index];
+		dp[E] += E_fft_unit_vec[i] * mag[index];
+		dp[A] += A_fft_unit_vec[i] * mag[index];
+		dp[D] += D_fft_unit_vec[i] * mag[index];
+		dp[G] += G_fft_unit_vec[i] * mag[index];
+		dp[B] += B_fft_unit_vec[i] * mag[index];
+		dp[e] += e_fft_unit_vec[i] * mag[index];
 	    }
 	    
 	    // find max string
