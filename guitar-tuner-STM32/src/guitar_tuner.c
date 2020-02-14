@@ -1,7 +1,6 @@
 #include "guitar_tuner.h"
 
 float ideal_frequencies[] = {82.0312*2, 109.375*3, 148.437, 195.312, 246.093, 328.125 };
-// float ideal_frequencies[] = {164.0624, 109.375, 148.437, 195.312, 246.093, 328.125 };
 float thresh[6] = {0.5, 0.7, 0.9, 1.0, 1.2, 1.2};
 
 /**

@@ -57,10 +57,6 @@ int main(void)
     float mag[ADC_BUFF_SIZE];
     float freq[ADC_BUFF_SIZE];
 
-    float real_part[UNIT_VEC_LENGTH];
-    float imag_part[UNIT_VEC_LENGTH];
-    float mag_part[UNIT_VEC_LENGTH];
-
     get_freq_bins(freq, ADC_BUFF_SIZE, 0.001);
 
     if(UART_DEBUG) uart_puts("START:", USART1);
